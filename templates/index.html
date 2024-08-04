@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Q&A with OpenAI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #4b0082;
+        }
+        #container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #4b0082;
+        }
+        label {
+            display: block;
+            margin: 1rem 0 0.5rem;
+            font-size: 1.2rem;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 2px solid #4b0082;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            margin-top: 1rem;
+            padding: 10px 20px;
+            background-color: #4b0082;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #6a0dad;
+        }
+        h2 {
+            margin-top: 2rem;
+            color: #4b0082;
+        }
+        #answer {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <h1>Ask a Question</h1>
+        <form id="qna-form">
+            <label for="pertanyaan">Question:</label>
+            <input type="text" id="pertanyaan" name="pertanyaan" required>
+            <button type="submit">Ask</button>
+        </form>
+        <h2>Answer</h2>
+        <div id="answer"></div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#qna-form').on('submit', function(event) {
+                event.preventDefault();
+                
+                var pertanyaan = $('#pertanyaan').val();
+                
+                $.ajax({
+                    url: '/qna',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ pertanyaan: pertanyaan }),
+                    success: function(response) {
+                        $('#answer').html(response.jawaban);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
